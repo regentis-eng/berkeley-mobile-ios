@@ -59,12 +59,12 @@ struct HomeView: View {
     private var homeDrawerContentView: some View {
         NavigationStack(path: $navigationPath) {
             Group {
+                segmentedControlHeader
                 if homeViewModel.isFetching {
                     ProgressView("LOADING")
                         .padding(.vertical, 20)
                     Spacer()
                 } else {
-                    segmentedControlHeader
                     switch tabSelectedIndex {
                     case 0:
                         DiningHallsView(mapViewController: mapViewController) { selectedDiningHall in
@@ -86,6 +86,7 @@ struct HomeView: View {
                     }
                 }
             }
+
             .navigationBarTitleDisplayMode(.inline)
             .containerBackground(.clear, for: .navigation)
             .padding(.horizontal)

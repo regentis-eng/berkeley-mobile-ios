@@ -61,9 +61,13 @@ struct HomeView: View {
             Group {
                 segmentedControlHeader
                 if homeViewModel.isFetching {
-                    ProgressView("LOADING")
-                        .padding(.vertical, 20)
-                    Spacer()
+                    VStack {
+                        ProgressView("LOADING")
+                            .padding(.vertical, 20)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+
                 } else {
                     switch tabSelectedIndex {
                     case 0:

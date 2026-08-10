@@ -71,6 +71,30 @@ struct ResourcesView: View {
 struct ResourcePageView: View {
     var resourceSections: [BMResourceSection]
 
+    // Light, soft background colors so dark text stays readable on every cell.
+    private static let gridColorPalette: [Color] = [
+        Color(red: 0.85, green: 0.93, blue: 0.97),   // Light blue
+        Color(red: 0.93, green: 0.88, blue: 0.78),   // Light beige
+        Color(red: 0.86, green: 0.94, blue: 0.86),   // Light green
+        Color(red: 0.95, green: 0.88, blue: 0.90),   // Light pink
+        Color(red: 0.94, green: 0.94, blue: 0.78),   // Light yellow
+        Color(red: 0.90, green: 0.90, blue: 0.96),   // Light lavender
+        Color(red: 0.95, green: 0.90, blue: 0.82),   // Light peach
+        Color(red: 0.82, green: 0.94, blue: 0.94)    // Light cyan
+    ]
+
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    private func color(for section: BMResourceSection) -> Color {
+        // Deterministic but effectively "random" per title so each section gets a stable color.
+        let titleHash = (section.title ?? "").hashValue
+        let index = abs(titleHash) % Self.gridColorPalette.count
+        return Self.gridColorPalette[index]
+    }
+
     var body: some View {
         Group {
             if resourceSections.isEmpty {
@@ -80,23 +104,73 @@ struct ResourcePageView: View {
                     .foregroundStyle(.secondary)
             } else {
                 ScrollView {
-                    VStack(spacing: 10) {
+                    LazyVGrid(columns: columns, spacing: 12) {
                         ForEach(resourceSections, id: \.self) { resourceSection in
-                            if let sectionHeaderText = resourceSection.title {
-                                    ResourcesSectionDropdown(title: sectionHeaderText, accentColor: .orange) {
-                                        VStack(spacing: 0) {
-                                            ForEach(resourceSection.resources, id: \.id) { resource in
-                                                ResourceItemView(resource: resource)
-                                            }
-                                        }
-                                    }
-                            }
+                            ResourcesSectionGridCell(
+                                title: resourceSection.title ?? "Untitled",
+                                resources: resourceSection.resources,
+                                backgroundColor: color(for: resourceSection)
+                            )
                         }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
                 }
                 .background(Color(BMColor.cardBackground))
             }
         }
+    }
+}
+
+// MARK: - ResourcesSectionGridCell
+
+struct ResourcesSectionGridCell: View {
+    let title: String
+    let resources: [BMResource]
+    let backgroundColor: Color
+
+    @State private var isExpanded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Button(action: {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text(title)
+                        .font(Font(BMFont.bold(18)))
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 14, weight: .heavy))
+                        .foregroundStyle(.gray)
+                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                }
+                .padding(16)
+            }
+
+            if isExpanded {
+                VStack(spacing: 0) {
+                    ForEach(resources, id: \.id) { resource in
+                        ResourceItemView(resource: resource)
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.bottom, 10)
+            }
+        }
+        .background(backgroundColor)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.black.opacity(0.06), lineWidth: 1)
+        )
     }
 }
 

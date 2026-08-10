@@ -78,10 +78,8 @@ extension Container {
         self { ResourcesViewModel() }.shared
     }
 
-        self { ResourcesViewModel() }.shared
-    }
-
     var rsfOccupancyViewModel: Factory<GymOccupancyViewModel> {
+
         self { GymOccupancyViewModel(location: .rsf) }.singleton
     }
 

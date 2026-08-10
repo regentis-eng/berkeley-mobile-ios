@@ -47,8 +47,10 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
-berkeley-mobile/GoogleService-Info.plist
-berkeley-mobile/Secrets.swift
+
+## Placeholder config files are committed so the project builds from a clean clone.
+## Replace their contents locally with real credentials when needed — but never commit real values.
+## (berkeley-mobile/GoogleService-Info.plist and berkeley-mobile/Secrets.swift used to be ignored here.)
 
 ## Cocoapods
 ##Pods/

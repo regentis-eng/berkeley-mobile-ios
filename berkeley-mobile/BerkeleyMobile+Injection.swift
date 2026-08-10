@@ -68,11 +68,18 @@ extension Container {
         }.shared
     }
 
+    var nearbyLibrariesDataViewModel: Factory<NearbyLibrariesDataViewModel> {
+        self { @MainActor in
+            NearbyLibrariesDataViewModel()
+        }.shared
+    }
+
     var resourcesViewModel: Factory<ResourcesViewModel> {
         self { ResourcesViewModel() }.shared
     }
 
     var rsfOccupancyViewModel: Factory<GymOccupancyViewModel> {
+
         self { GymOccupancyViewModel(location: .rsf) }.singleton
     }
 

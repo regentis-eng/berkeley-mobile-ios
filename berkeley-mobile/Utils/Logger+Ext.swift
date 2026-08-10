@@ -44,4 +44,9 @@ extension Logger {
         subsystem: Bundle.main.bundleIdentifier!,
         category: String(describing: WeatherDataViewModel.self)
     )
+
+    static let nearbyLibrariesDataViewModel = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: NearbyLibrariesDataViewModel.self)
+    )
 }

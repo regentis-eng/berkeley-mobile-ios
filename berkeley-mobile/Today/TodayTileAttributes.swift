@@ -69,6 +69,7 @@ struct TodayTileStyle {
 enum TodayTiles: CaseIterable {
     case news
     case weather
+    case libraries
 
     func view() -> AnyView {
         switch self {
@@ -76,6 +77,8 @@ enum TodayTiles: CaseIterable {
             return AnyView(NewsTileView())
         case .weather:
             return AnyView(TodayWeatherTileView())
+        case .libraries:
+            return AnyView(TodayLibrariesTileView())
         }
     }
 
@@ -97,6 +100,15 @@ enum TodayTiles: CaseIterable {
                 styles: [TodayTileStyle.Name.defaultName: TodayTileStyle(colors: [
                     Color(red: 0.20, green: 0.52, blue: 0.87),
                     Color(red: 0.50, green: 0.80, blue: 0.99)])]
+            )
+        case .libraries:
+            TodayTileAttributes(
+                span: TodayTileSpan(columns: 4, rows: 3),
+                contentPadding: 20,
+                displayedStyleName: displayedStyleName,
+                styles: [TodayTileStyle.Name.defaultName: TodayTileStyle(colors: [
+                    Color(red: 0.45, green: 0.31, blue: 0.21),
+                    Color(red: 0.74, green: 0.58, blue: 0.40)])]
             )
         }
     }

@@ -107,8 +107,8 @@ enum TodayTiles: CaseIterable {
                 contentPadding: 20,
                 displayedStyleName: displayedStyleName,
                 styles: [TodayTileStyle.Name.defaultName: TodayTileStyle(colors: [
-                    Color(red: 0.45, green: 0.31, blue: 0.21),
-                    Color(red: 0.74, green: 0.58, blue: 0.40)])]
+                    Color(red: 0.13, green: 0.27, blue: 0.62),
+                    Color(red: 0.30, green: 0.50, blue: 0.85)])]
             )
         }
     }
